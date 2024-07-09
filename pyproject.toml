@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "fw-block"
+version = "0.1.0"
+description = "Web Application for blocking or unblocking IP addresses on configured CISCO ASA devices"
+authors = ["Mr0rang3 <mr.0r4ng3@proton.me>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
