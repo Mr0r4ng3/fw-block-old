@@ -14,6 +14,13 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
 
+IP_API_URL = env("IP_API_URL")
+FW_USER = env("FW_USER")
+FW_PASSWORD = env("FW_PASSWORD")
+
+PROTECTED_NETWORKS = [
+    "161.196.0.0/16",
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
