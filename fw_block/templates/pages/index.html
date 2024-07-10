@@ -3,5 +3,38 @@
 {% block title %}Index{% endblock title %}
 
 {% block main %}
-<h1>Hello world!</h1>
+
+{% if messages %}
+
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+
+{% endif %}
+
+<form action="{% url "search" %}" method="GET">
+    {{ form.ip }}
+    <input type="submit" value="Buscar">
+</form>
+
+<div id="result">
+
+    <ul>
+        {% for ip in ips %}
+            <li>
+                <p>{{ ip.ip }}</p>
+                <p>{{ ip.country }}, {{ ip.region }}, {{ ip.city }}</p>
+                <p>{{ ip.asn }} - {{ ip.organization }}</p>
+
+                <p>Bloqueado en:</p>
+                {% for firewall in ip.blocked_in_firewalls %} <p>{{ firewall.name }}</p> {% endfor %}
+
+                <a href="{% url "unblock" ip.ip %}">Desbloquear</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</div>
 {% endblock main %}

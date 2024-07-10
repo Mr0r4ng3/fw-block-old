@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Unblock{% endblock title %}
+
+{% block main %}
+
+    <section>
+
+        <p>{{ ip.ip }}</p>
+
+        <form action="{% url "unblock" ip.ip %}" method="POST">
+
+            {% csrf_token %}
+
+            <select name="firewalls" id="firewall-select" multiple>
+                {% for firewall in firewalls %}
+
+                    <option value="{{ firewall.id }}">{{ firewall.name }}</option>
+
+                {% endfor %}
+            </select>
+
+            <input type="submit" value="Confirmar">
+
+        </form>
+    </section>
+
+{% endblock main %}

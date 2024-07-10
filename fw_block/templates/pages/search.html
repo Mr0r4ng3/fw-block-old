@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Resultado{% endblock title %}
+
+{% block main %}
+
+    <section>
+        <p>{{ ip.ip }}</p>
+        <p>{{ ip.country }}, {{ ip.region }}, {{ ip.city }}</p>
+        <p>{{ ip.asn }} - {{ ip.organization }}</p>
+
+        <form action="{% url "block" %}" method="POST">
+
+            {% csrf_token %}
+
+            <input type="hidden" name="ip" value="{{ ip.ip }}">
+
+            <select name="firewalls" id="firewall-select" multiple>
+                {% for firewall in firewalls %}
+
+                    <option value="{{ firewall.id }}">{{ firewall.name }}</option>
+
+                {% endfor %}
+            </select>
+
+            <input type="submit" value="Bloquear">
+
+        </form>
+    </section>
+
+{% endblock main %}

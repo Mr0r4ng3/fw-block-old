@@ -4,5 +4,8 @@ from fw_block import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.index, name="index"),
+    path("", views.Index.as_view(), name="index"),
+    path("search/", views.Search.as_view(), name="search"),
+    path("block/", views.Block.as_view(), name="block"),
+    path("unblock/<str:ip>", views.Unblock.as_view(), name="unblock"),
 ]
