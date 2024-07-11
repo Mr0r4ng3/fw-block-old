@@ -45,15 +45,11 @@ class SearchForm(forms.Form):
         try:
             self.model = IpAddress.objects.get(ip=ip)
 
-            print("Query from db")
-
             return self.model.to_dict()
 
         except IpAddress.DoesNotExist:
 
             data = query_ip_in_api(ip)
-
-            print("Query from api")
 
             if data.get("error"):
 
@@ -71,5 +67,7 @@ class SearchForm(forms.Form):
             )
 
             new_ip.save()
+
+            self.model = new_ip
 
             return new_ip.to_dict()
