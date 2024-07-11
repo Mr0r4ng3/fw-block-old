@@ -1,7 +1,7 @@
 {% load static tailwind_tags %}
 
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" class="bg-gray-400">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +11,24 @@
     {% tailwind_css %}
     {% block css %}{% endblock css %}
 </head>
-<body>
-    <header>
+<body class="h-screen">
+    <header class="w-full">
         {% if user.is_authenticated %}
         {% include "includes/navbar.html" %}
         {% endif %}
-        {% block header %}{% endblock header %}
+        {% block header %}
+        {% endblock header %}
     </header>
-    <main class="">
+    <section>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </section>
+    <main class="p-6 w-screen">
         {% block main %}{% endblock main %}
     </main>
     {% block js %}{% endblock js %}

@@ -1,43 +1,69 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block sub_title %}- Inicio{% endblock sub_title %}
 
+{% block css %}
+ <link rel="stylesheet" href="{% static "leaflet/leaflet.css" %}">
+{% endblock css %}
+
+{% block header %}
+<div class="bg-gray-100 flex flex-col items-center justify-center">
+    <form id="search-form" action="{% url "search" %}" method="GET" class="hidden flex flex-col gap-2 sm:flex-row m-6">
+        <label class="input input-bordered flex items-center gap-2">
+            <span class="hidden sm:inline">Buscar IP</span> 
+            <input type="text" class="grow" name="ip" maxlength="15" required placeholder="8.8.8.8" />
+            <kbd class="kbd kbd-sm hidden sm:inline">Enter</kbd>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            
+        </label>
+
+        <input class="btn btn-neutral" type="submit" value="Buscar">
+    </form>
+    <div class="w-full bg-gray-700 flex items-center justify-center h-2">
+        <button id="toggle-search-form" class="text-white bg-gray-700 rounded-full p-1 rotate-180">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+              </svg>
+                     
+        </button>
+    </div>
+</div>
+{% endblock header %}
+
 {% block main %}
-
-{% if messages %}
-
-    <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-
-{% endif %}
-
-<form action="{% url "search" %}" method="GET">
-    {{ form.ip }}
-    <input class="btn btn-primary" type="submit" value="Buscar">
-</form>
-
 <div id="result">
 
-    <ul>
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center content-center w-full">
         {% for ip in ips %}
-            <li>
-                <h2>{{ ip.ip }}</h2>
-                <p>País: {{ ip.country }}</p>
-                <p>Estado: {{ ip.region }}</p>
-                <p>Ciudad: {{ ip.city }}</p>
-                <p>ASN: {{ ip.asn }}</p>
-                <p>Organización: {{ ip.organization }}</p>
+            <li class="card bg-white w-72 shadow-xl rounded-md z-0">
+                <div class="map-div h-40 rounded-md" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
+                </div>
+                <div class="card-body">
+                  <h2 class="card-title">{{ ip.ip }}</h2>
+                  <p class="text-sm text-gray-700">
+                    {{ ip.country }}{% if ip.region %}, {{ ip.region }}{% endif %}{% if ip.city %}, {{ ip.city }}{% endif %}
+                  </p>
+                  <div class="card-actions justify-end mt-2">
+                    <a class="btn btn-primary btn-sm text-xs" href="{% url "unblock" ip.ip %}">
+                        Desbloquear
+                    </a>
 
-                <p>Bloqueado en:</p>
-                {% for firewall in ip.blocked_in_firewalls %} <p>{{ firewall.name }}</p> {% endfor %}
-
-                <a class="btn btn-secondary" href="{% url "unblock" ip.ip %}">Desbloquear</a>
+                  </div>
+                </div>
             </li>
         {% endfor %}
     </ul>
 
 </div>
 {% endblock main %}
+
+{% block js %}
+<script src="{% static "leaflet/leaflet.js" %}"></script>
+<script src="{% static "initializeMaps.js" %}"></script>
+<script src="{% static "index.js" %}"></script>
+{% endblock js %}
