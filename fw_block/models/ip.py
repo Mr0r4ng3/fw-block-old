@@ -1,12 +1,11 @@
 from django.db import models
 
-from fw_block.models.blocked import Blocked
-
 
 class IpAddress(models.Model):
 
     class Meta:
         app_label = "fw_block"
+        permissions = (("search_ipadress", "Can search IPs"),)
 
     ip = models.GenericIPAddressField(unique=True, db_index=True)
     country = models.CharField(max_length=100, blank=True, null=True)
@@ -14,7 +13,7 @@ class IpAddress(models.Model):
     city = models.CharField(max_length=100, blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
-    asn = models.CharField(max_length=100)
+    asn = models.CharField(max_length=100, blank=True, null=True)
     organization = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):

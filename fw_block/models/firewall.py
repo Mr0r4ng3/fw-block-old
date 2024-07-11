@@ -11,8 +11,13 @@ class Firewall(models.Model):
     class Meta:
         app_label = "fw_block"
 
+        permissions = (
+            ("can_block", "Can block IPs"),
+            ("can_unblock", "Can unblock IPs"),
+        )
+
     name = models.CharField(max_length=100)
-    ip = models.GenericIPAddressField(unique=True)
+    ip = models.GenericIPAddressField()
     context = models.CharField(max_length=100)
 
     blocked_ips = models.ManyToManyField(
