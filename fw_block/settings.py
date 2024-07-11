@@ -14,7 +14,7 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
 
-IP_API_URL = env("IP_API_URL")
+IP_API_URL = "https://ipapi.co"
 FW_USER = env("FW_USER")
 FW_PASSWORD = env("FW_PASSWORD")
 
