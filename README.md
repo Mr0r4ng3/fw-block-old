@@ -9,7 +9,6 @@ To run this project, you will need to add the following environment variables to
 
 `SECRET_KEY`
 `DEBUG`
-`IP_API_URL`
 `FW_USER`
 `FW_PASSWORD`
 
