@@ -1,5 +1,5 @@
 from django.contrib import admin
-from fw_block.models import Firewall, IpAddress, Blocked
+from fw_block.models import Firewall, IpAddress, Blocked, ProtectedNetworks
 
 
 @admin.register(Firewall)
@@ -14,4 +14,9 @@ class IpAddressAdmin(admin.ModelAdmin):
 
 @admin.register(Blocked)
 class BlockedAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ProtectedNetworks)
+class ProtectedNetworksAdmin(admin.ModelAdmin):
     pass
