@@ -2,7 +2,7 @@ import environ
 from pathlib import Path
 
 
-env = environ.Env(DEBUG=(bool, False))
+env = environ.Env(DEBUG=(bool, False), APPLY_TO_FW=(bool, False))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -17,6 +17,7 @@ ALLOWED_HOSTS = []
 IP_API_URL = "https://ipapi.co"
 FW_USER = env("FW_USER")
 FW_PASSWORD = env("FW_PASSWORD")
+APPLY_TO_FW = env("APPLY_TO_FW")
 
 PROTECTED_NETWORKS = [
     "161.196.0.0/16",

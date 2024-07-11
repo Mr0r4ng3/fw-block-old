@@ -36,7 +36,11 @@ class Firewall(models.Model):
                 password=settings.FW_PASSWORD,
             )
 
-            if asa_service.block_ip(ip.ip):
+            ok_result_from_firewall = (
+                asa_service.block_ip(ip.ip) if settings.APPLY_TO_FW else True
+            )
+
+            if ok_result_from_firewall:
 
                 blocked = Blocked.objects.get(ip=ip, firewall=self)
 
@@ -63,8 +67,11 @@ class Firewall(models.Model):
             password=settings.FW_PASSWORD,
         )
 
-        if asa_service.unblock_ip(ip.ip):
+        ok_result_from_firewall = (
+            asa_service.unblock_ip(ip.ip) if settings.APPLY_TO_FW else True
+        )
 
+        if ok_result_from_firewall:
             blocked = Blocked.objects.get(ip=ip, firewall=self)
 
             blocked.is_blocked = False
