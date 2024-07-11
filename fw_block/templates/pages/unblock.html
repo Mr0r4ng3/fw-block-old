@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Unblock{% endblock title %}
+{% block sub_title %}- Desbloquear{% endblock sub_title %}
 
 {% block main %}
 
     <section>
 
-        <p>{{ ip.ip }}</p>
+        <h2>{{ ip.ip }}</h2>
+        <p>País: {{ ip.country }}</p>
+        <p>Estado: {{ ip.region }}</p>
+        <p>Ciudad: {{ ip.city }}</p>
+        <p>ASN: {{ ip.asn }}</p>
+        <p>Organización: {{ ip.organization }}</p>
 
         <form action="{% url "unblock" ip.ip %}" method="POST">
 
