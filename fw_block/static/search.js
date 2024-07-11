@@ -1,0 +1,3 @@
+new TomSelect("#select-firewalls", {
+});
+

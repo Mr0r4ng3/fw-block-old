@@ -1,34 +1,53 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block sub_title %}- Busqueda{% endblock sub_title %}
+
+{% block css %}
+ <link rel="stylesheet" href="{% static "leaflet/leaflet.css" %}">
+ <link rel="stylesheet" href="{% static "tom-select/tom-select.css" %}">
+{% endblock css %}
 
 {% block main %}
 
-    <section>
-        <h2>{{ ip.ip }}</h2>
-        <p>País: {{ ip.country }}</p>
-        <p>Estado: {{ ip.region }}</p>
-        <p>Ciudad: {{ ip.city }}</p>
-        <p>ASN: {{ ip.asn }}</p>
-        <p>Organización: {{ ip.organization }}</p>
-
-        <form action="{% url "block" %}" method="POST">
-
-            {% csrf_token %}
-
-            <input type="hidden" name="ip" value="{{ ip.ip }}">
-
-            <select name="firewalls" id="firewall-select" multiple>
-                {% for firewall in firewalls %}
-
-                    <option value="{{ firewall.id }}">{{ firewall.name }}</option>
-
-                {% endfor %}
-            </select>
-
-            <input class="btn btn-primary" type="submit" value="Bloquear">
-
-        </form>
+    <section class="bg-white sm:grid grid-cols-2 sm:h-[480px]">
+        <article class="">
+            <div class="">
+                <div class="map-div h-32 sm:h-[480px]" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
+            </div>
+        </article>
+        <article class="grid grid-cols-1">
+            <div>
+                {% include "includes/ip_details.html" %}
+            </div>
+    
+            <form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center">
+    
+                {% csrf_token %}
+    
+                <input type="hidden" name="ip" value="{{ ip.ip }}">
+    
+                <select class="w-full" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione donde bloquear" autocomplete="off" multiple>
+                    {% for firewall in firewalls %}
+    
+                        <option value="{{ firewall.id }}">{{ firewall.name }}</option>
+    
+                    {% endfor %}
+                </select>
+    
+                <input class="btn btn-primary" type="submit" value="Bloquear">
+    
+            </form>
+        </article>
     </section>
 
 {% endblock main %}
+
+{% block js %}
+<script src="{% static "leaflet/leaflet.js" %}"></script>
+<script src="{% static "initializeMaps.js" %}"></script>
+<script src="{% static "tom-select/tom-select.js" %}"></script>
+<script src="{% static "search.js" %}"></script>
+
+{% endblock js %}
