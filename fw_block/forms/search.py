@@ -1,15 +1,16 @@
-from ipaddress import AddressValueError, IPv4Address, IPv4Network
+from ipaddress import AddressValueError, IPv4Address
 from django import forms
-from fw_block import settings
 from fw_block.services.ip_api_query import query_ip_in_api
-from fw_block.models import IpAddress
+from fw_block.models import IpAddress, ProtectedNetworks
 
 
-def check_ip_in_protected_network(ip: str, protected_networks: list[str]) -> None:
+def check_ip_in_protected_network(ip: str) -> None:
+
+    protected_networks = ProtectedNetworks.objects.all()
 
     for protected_network in protected_networks:
 
-        if IPv4Address(ip) in IPv4Network(protected_network):
+        if IPv4Address(ip) in protected_network.to_ipv4_network():
 
             raise forms.ValidationError("IP Address in protected network")
 
@@ -30,7 +31,7 @@ class SearchForm(forms.Form):
 
         try:
 
-            check_ip_in_protected_network(ip, settings.PROTECTED_NETWORKS)
+            check_ip_in_protected_network(ip)
 
         except AddressValueError:
 

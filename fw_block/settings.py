@@ -19,10 +19,6 @@ FW_USER = env("FW_USER")
 FW_PASSWORD = env("FW_PASSWORD")
 APPLY_TO_FW = env("APPLY_TO_FW")
 
-PROTECTED_NETWORKS = [
-    "161.196.0.0/16",
-]
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
