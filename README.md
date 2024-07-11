@@ -11,6 +11,7 @@ To run this project, you will need to add the following environment variables to
 `DEBUG`
 `FW_USER`
 `FW_PASSWORD`
+`APPLY_TO_FW`
 
 ## Run Locally
 
