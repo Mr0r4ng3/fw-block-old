@@ -16,7 +16,7 @@
 
 <form action="{% url "search" %}" method="GET">
     {{ form.ip }}
-    <input type="submit" value="Buscar">
+    <input class="btn btn-primary" type="submit" value="Buscar">
 </form>
 
 <div id="result">
@@ -34,7 +34,7 @@
                 <p>Bloqueado en:</p>
                 {% for firewall in ip.blocked_in_firewalls %} <p>{{ firewall.name }}</p> {% endfor %}
 
-                <a href="{% url "unblock" ip.ip %}">Desbloquear</a>
+                <a class="btn btn-secondary" href="{% url "unblock" ip.ip %}">Desbloquear</a>
             </li>
         {% endfor %}
     </ul>

@@ -1,7 +1,7 @@
 {% load static tailwind_tags %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
         {% endif %}
         {% block header %}{% endblock header %}
     </header>
-    <main>
+    <main class="">
         {% block main %}{% endblock main %}
     </main>
     {% block js %}{% endblock js %}
