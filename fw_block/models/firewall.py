@@ -16,9 +16,9 @@ class Firewall(models.Model):
             ("can_unblock", "Can unblock IPs"),
         )
 
-    name = models.CharField(max_length=100)
-    ip = models.GenericIPAddressField()
-    context = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="Nombre")
+    ip = models.GenericIPAddressField(verbose_name="IP")
+    context = models.CharField(max_length=100, verbose_name="Contexto")
 
     blocked_ips = models.ManyToManyField(
         "IpAddress", related_name="blocked_in", through="Blocked"

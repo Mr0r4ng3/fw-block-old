@@ -12,7 +12,9 @@ def check_ip_in_protected_network(ip: str) -> None:
 
         if IPv4Address(ip) in protected_network.to_ipv4_network():
 
-            raise forms.ValidationError("IP Address in protected network")
+            raise forms.ValidationError(
+                "La dirección IP se encuentra en una red protegida por los administradores"
+            )
 
 
 class SearchForm(forms.Form):
@@ -35,7 +37,7 @@ class SearchForm(forms.Form):
 
         except AddressValueError:
 
-            raise forms.ValidationError("Invalid IP address")
+            raise forms.ValidationError("Dirección IP inválida")
 
         return ip
 

@@ -3,8 +3,8 @@ from fw_block.settings import IP_API_URL
 
 
 error_reasons = {
-    "Invalid IP address": "Invalid IP address",
-    "Reserved IP address": "Reserved IP address",
+    "Invalid IP address": "Dirección IP inválida",
+    "Reserved IP address": "La dirección IP pertenece a una red reservada",
 }
 
 
@@ -29,6 +29,6 @@ def query_ip_in_api(ip: str) -> dict:
 
     except requests.exceptions.ConnectionError:
 
-        data = {"error": True, "reason": "Connection to API failed"}
+        data = {"error": True, "reason": "No se pudo conectar con la API"}
 
     return data

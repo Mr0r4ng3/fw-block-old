@@ -20,7 +20,7 @@ class Unblock(PermissionRequiredMixin, View):
 
         except AddressValueError:
 
-            messages.error(request, "Invalid IP address")
+            messages.error(request, "Dirección IP inválida")
 
             return redirect("index")
 
@@ -55,14 +55,14 @@ class Unblock(PermissionRequiredMixin, View):
 
             messages.info(
                 request,
-                f"Se desbloqueo exitosamente la IP en {succesful_firewalls} firewalls",
+                f"Se desbloqueo exitosamente la IP en {succesful_firewalls} firewall{'s' if succesful_firewalls > 1 else ''}",
             )
 
         if failed_firewalls > 0:
 
             messages.error(
                 request,
-                f"No se pudo desbloquear la IP en {failed_firewalls} firewalls",
+                f"No se pudo desbloquear la IP en {failed_firewalls} firewall{'s' if failed_firewalls > 1 else ''}",
             )
 
         return redirect("index")

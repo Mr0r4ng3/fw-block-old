@@ -1,4 +1,5 @@
 from ipaddress import IPv4Network
+from tabnanny import verbose
 from django.db import models
 
 
@@ -6,8 +7,10 @@ class ProtectedNetworks(models.Model):
 
     class Meta:
         app_label = "fw_block"
+        verbose_name = "Red protegida"
+        verbose_name_plural = "Redes protegidas"
 
-    cidr = models.CharField(max_length=18)
+    cidr = models.CharField(max_length=18, verbose_name="CIDR")
 
     def to_ipv4_network(self):
 

@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 from fw_block.models.firewall import Firewall
 from fw_block.forms import SearchForm
+from django.utils.translation import gettext as _
 
 
 def extract_errors(form: Form):
@@ -51,7 +52,8 @@ class Search(PermissionRequiredMixin, View):
         if firewalls.count() == 0:
 
             messages.warning(
-                request, "La ip ya se encuentra bloqueada en todos los firewalls"
+                request,
+                "La dirección IP ya se encuentra bloqueada en todos los firewalls",
             )
             return redirect("index")
 
