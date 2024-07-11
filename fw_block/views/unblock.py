@@ -1,13 +1,17 @@
 from ipaddress import AddressValueError, IPv4Address
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 
-from fw_block.models import IpAddress, Firewall, blocked
+from fw_block.models import IpAddress, Firewall
 
 
-class Unblock(View):
+class Unblock(PermissionRequiredMixin, View):
+
+    permission_required = "fw_block.can_unblock"
+
     def get(self, request: HttpRequest, ip: str) -> HttpResponse:
 
         try:

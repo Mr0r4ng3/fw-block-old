@@ -1,12 +1,15 @@
 from django.http import HttpRequest, HttpResponse
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
 from fw_block.models import Firewall, IpAddress
 
 
-class Block(View):
+class Block(PermissionRequiredMixin, View):
+
+    permission_required = "fw_block.can_block"
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
@@ -40,5 +43,9 @@ class Block(View):
                 request,
                 f"No se pudo bloquear la IP en {failed_firewalls} firewalls",
             )
+
+        return redirect("index")
+
+    def get(self, request: HttpRequest) -> HttpResponse:
 
         return redirect("index")

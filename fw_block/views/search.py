@@ -1,9 +1,9 @@
 from django.forms import Form
 from django.views import View
 from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 from fw_block.models.firewall import Firewall
-from fw_block.services.ip_api_query import query_ip_in_api
 from fw_block.forms import SearchForm
 
 
@@ -20,7 +20,10 @@ def extract_errors(form: Form):
     return errors
 
 
-class Search(View):
+class Search(PermissionRequiredMixin, View):
+
+    permission_required = "fw_block.search_ipadress"
+
     def get(self, request):
 
         if not request.GET.get("ip"):

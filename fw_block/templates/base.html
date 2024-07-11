@@ -8,7 +8,12 @@
     {% block css %}{% endblock css %}
 </head>
 <body>
-    <header>{% block header %}{% endblock header %}</header>
+    <header>
+        {% if user.is_authenticated %}
+        {% include "includes/navbar.html" %}
+        {% endif %}
+        {% block header %}{% endblock header %}
+    </header>
     <main>
         {% block main %}{% endblock main %}
     </main>

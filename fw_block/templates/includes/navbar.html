@@ -1,0 +1,9 @@
+<nav>
+    <div>
+
+    </div>
+    <form action="{% url "logout" %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Cerrar Sesión">
+    </form>
+</nav>
