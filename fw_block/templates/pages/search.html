@@ -12,17 +12,19 @@
 {% block main %}
 
     <section class="bg-white sm:grid grid-cols-2 sm:h-[480px]">
+        {% if ip.latitude and ip.longitude %}
         <article class="">
             <div class="">
                 <div class="map-div h-32 sm:h-[480px]" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
             </div>
         </article>
-        <article class="grid grid-cols-1">
-            <div>
+        {% endif %}
+        <article class="">
+            <div class="w-full flex flex-col justify-center items-center">
                 {% include "includes/ip_details.html" %}
             </div>
     
-            <form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center">
+            <form action="{% url "block" %}" method="POST" class="p-8 flex flex-col gap-8">
     
                 {% csrf_token %}
     
@@ -36,7 +38,7 @@
                     {% endfor %}
                 </select>
     
-                <input class="btn btn-primary" type="submit" value="Bloquear">
+                <input class="btn btn-error" type="submit" value="Bloquear">
     
             </form>
         </article>
