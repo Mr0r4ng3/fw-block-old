@@ -39,7 +39,7 @@ class Search(PermissionRequiredMixin, View):
 
             for error in errors:
 
-                messages.error(request, error["reason"])
+                messages.error(request, error["reason"], extra_tags="danger")
 
             return redirect("index")
 
@@ -54,12 +54,13 @@ class Search(PermissionRequiredMixin, View):
             messages.warning(
                 request,
                 "La dirección IP ya se encuentra bloqueada en todos los firewalls",
+                extra_tags="default",
             )
             return redirect("index")
 
         if data.get("error"):
 
-            messages.error(request, data["reason"])
+            messages.error(request, data["reason"], extra_tags="danger")
             return redirect("index")
 
         context = {"ip": data, "firewalls": firewalls}

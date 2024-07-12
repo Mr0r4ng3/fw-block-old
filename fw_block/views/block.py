@@ -35,6 +35,7 @@ class Block(PermissionRequiredMixin, View):
             messages.info(
                 request,
                 f"Se bloqueo exitosamente la IP en {succesful_firewalls} firewall{'s' if succesful_firewalls > 1 else ''}",
+                extra_tags="success",
             )
 
         if failed_firewalls > 0:
@@ -42,6 +43,7 @@ class Block(PermissionRequiredMixin, View):
             messages.error(
                 request,
                 f"No se pudo bloquear la IP en {failed_firewalls} firewall{'s' if failed_firewalls > 1 else ''}",
+                extra_tags="danger",
             )
 
         return redirect("index")

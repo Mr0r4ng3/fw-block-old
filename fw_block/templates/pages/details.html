@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block sub_title %}- Busqueda{% endblock sub_title %}
+{% block sub_title %}- Desbloquear{% endblock sub_title %}
 
 {% block css %}
  <link rel="stylesheet" href="{% static "leaflet/leaflet.css" %}">
@@ -15,35 +15,34 @@
         {% if ip.latitude and ip.longitude %}
         <article class="">
             <div class="">
-                <div class="map-div h-32 rounded-md sm:h-[480px]" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
+                <div class="map-div rounded-md h-32 sm:h-[480px]" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
             </div>
         </article>
         {% endif %}
-        <article class="flex flex-col">
+        <article class=" flex flex-col">
             <div class="w-full flex flex-col justify-center items-center">
                 {% include "includes/ip_details.html" %}
             </div>
+            <form action="{% url "unblock" ip.ip %}" method="POST" class="flex flex-col justify-center p-8 gap-4">
 
-            <form action="{% url "block" %}" method="POST" class="p-8 flex flex-col gap-8">
-    
                 {% csrf_token %}
     
                 <input type="hidden" name="ip" value="{{ ip.ip }}">
     
-                <select class="w-full" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" multiple required class="hidden">
+                <select class="hidden" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" required multiple>
                     {% for firewall in firewalls %}
     
                         <option value="{{ firewall.id }}">{{ firewall.name }}</option>
     
                     {% endfor %}
+
                 </select>
 
-                <input class="btn btn-error" type="submit" value="Bloquear">
-
+                <input class="btn btn-success" type="submit" value="Desbloquear">
             </form>
+
         </article>
     </section>
-
 {% endblock main %}
 
 {% block js %}
@@ -51,6 +50,6 @@
 <script src="{% static "select/select.js" %}"></script>
 <script src="{% static "initializeMaps.js" %}"></script>
 <script src="{% static "initializeSelects.js" %}"></script>
-<script src="{% static "search.js" %}"></script>
+<script src="{% static "details.js" %}"></script>
 
 {% endblock js %}

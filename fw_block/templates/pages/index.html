@@ -49,8 +49,8 @@
                     {{ ip.country }}{% if ip.region %}, {{ ip.region }}{% endif %}{% if ip.city %}, {{ ip.city }}{% endif %}
                   </p>
                   <div class="card-actions justify-end mt-2">
-                    <a class="btn btn-primary btn-sm text-xs" href="{% url "unblock" ip.ip %}">
-                        Desbloquear
+                    <a class="text-sm link" href="{% url "details" ip.ip %}">
+                        Detalles
                     </a>
 
                   </div>
