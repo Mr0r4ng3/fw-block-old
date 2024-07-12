@@ -46,3 +46,17 @@ class IpAddress(models.Model):
     def blocked_in_firewalls(self):
 
         return self.blocked_in.filter(blocked__is_blocked=True, blocked__ip=self.id)
+
+    @property
+    def blocked_in_firewalls_first_3(self):
+
+        return self.blocked_in.filter(blocked__is_blocked=True, blocked__ip=self.id)[
+            0:3
+        ]
+
+    @property
+    def blocked_in_firewalls_count(self) -> bool:
+
+        return self.blocked_in.filter(
+            blocked__is_blocked=True, blocked__ip=self.id
+        ).count()

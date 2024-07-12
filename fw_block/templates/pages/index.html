@@ -38,7 +38,7 @@
 {% block main %}
 <div id="result">
 
-    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center content-center w-full">
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 justify-items-center content-center w-full">
         {% for ip in ips %}
             <li class="card bg-white w-72 shadow-xl rounded-md">
                 <div class="map-div h-40 rounded-md" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
@@ -48,6 +48,23 @@
                   <p class="text-sm text-gray-700">
                     {{ ip.country }}{% if ip.region %}, {{ ip.region }}{% endif %}{% if ip.city %}, {{ ip.city }}{% endif %}
                   </p>
+
+                  <div>
+                    <h3 class="font-semibold text-gray-700">Bloqueado en: </h3>
+                    <ul>
+                        {% for firewall in ip.blocked_in_firewalls_first_3  %}
+                        <li class="text-sm text-gray-500">{{ firewall.name }}</li>
+                        {% endfor %}
+
+                        {% if ip.blocked_in_firewalls_count > 3 %}
+                        <li>...</li>
+                        {% endif %}
+                    </ul>
+                  </div>
+                  <p class="text-sm text-gray-700">
+                    
+                  </p>
+
                   <div class="card-actions justify-end mt-2">
                     <a class="text-sm link" href="{% url "details" ip.ip %}">
                         Detalles
