@@ -1,24 +1,10 @@
-from django.forms import Form
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 from fw_block.models.firewall import Firewall
 from fw_block.forms import SearchForm
-from django.utils.translation import gettext as _
-
-
-def extract_errors(form: Form):
-
-    errors = []
-
-    for _, field in form.errors.as_data().items():
-
-        for error in field:
-
-            errors.append({"error": True, "reason": error.message})
-
-    return errors
+from fw_block.views.utils import extract_errors
 
 
 class Search(PermissionRequiredMixin, View):
