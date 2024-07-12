@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from fw_block import settings, views
 
 urlpatterns = [
@@ -12,6 +12,13 @@ urlpatterns = [
     path("unblock/<str:ip>", views.Unblock.as_view(), name="unblock"),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
+    path(
+        "password_change/",
+        PasswordChangeView.as_view(
+            template_name="registration/password_change.html", success_url="/"
+        ),
+        name="password_change",
+    ),
 ]
 
 if settings.DEBUG:
