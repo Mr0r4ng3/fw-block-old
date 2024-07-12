@@ -8,6 +8,7 @@ urlpatterns = [
     path("", views.Index.as_view(), name="index"),
     path("search/", views.Search.as_view(), name="search"),
     path("block/", views.Block.as_view(), name="block"),
+    path("details/<str:ip>", views.Details.as_view(), name="details"),
     path("unblock/<str:ip>", views.Unblock.as_view(), name="unblock"),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
