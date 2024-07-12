@@ -24,7 +24,7 @@
                 {% include "includes/ip_details.html" %}
             </div>
 
-            <form action="{% url "block" %}" method="POST" class="p-8 flex flex-col gap-8">
+            <form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
     
                 {% csrf_token %}
     
@@ -38,7 +38,8 @@
                     {% endfor %}
                 </select>
 
-                <input class="btn btn-error" type="submit" value="Bloquear">
+                <input class="btn btn-error text-white" type="submit" value="Bloquear">
+
 
             </form>
         </article>

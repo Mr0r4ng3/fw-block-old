@@ -23,7 +23,7 @@
             <div class="w-full flex flex-col justify-center items-center">
                 {% include "includes/ip_details.html" %}
             </div>
-            <form action="{% url "unblock" ip.ip %}" method="POST" class="flex flex-col justify-center p-8 gap-4">
+            <form action="{% url "unblock" ip.ip %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
 
                 {% csrf_token %}
     
@@ -38,7 +38,7 @@
 
                 </select>
 
-                <input class="btn btn-success" type="submit" value="Desbloquear">
+                <input class="btn btn-success text-white" type="submit" value="Desbloquear">
             </form>
 
         </article>
