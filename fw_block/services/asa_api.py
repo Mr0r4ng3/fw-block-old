@@ -1,6 +1,6 @@
 import json
 from urllib import request
-from requests import Session, adapters, Response, ConnectionError
+from requests import Session, adapters, Response
 from requests.auth import HTTPBasicAuth
 from urllib3 import poolmanager, disable_warnings  # type: ignore
 from ssl import create_default_context, Purpose, CERT_NONE
