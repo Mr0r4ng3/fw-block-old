@@ -26,6 +26,8 @@ class IpAddress(models.Model):
         max_length=100, blank=True, null=True, verbose_name="Organización"
     )
 
+    is_blocked = models.BooleanField(default=False)
+
     def __str__(self):
         return self.ip
 
@@ -44,18 +46,14 @@ class IpAddress(models.Model):
     @property
     def blocked_in_firewalls(self):
 
-        return self.blocked_in.filter(blocked__is_blocked=True, blocked__ip=self.id)
+        return self.blocked_in.all()
 
     @property
     def blocked_in_firewalls_first_3(self):
 
-        return self.blocked_in.filter(blocked__is_blocked=True, blocked__ip=self.id)[
-            0:3
-        ]
+        return self.blocked_in.all()[0:3]
 
     @property
     def blocked_in_firewalls_count(self) -> bool:
 
-        return self.blocked_in.filter(
-            blocked__is_blocked=True, blocked__ip=self.id
-        ).count()
+        return self.blocked_in.all().count()

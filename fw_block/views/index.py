@@ -13,7 +13,7 @@ class Index(PermissionRequiredMixin, View):
     def get(self, request: HttpRequest) -> HttpResponse:
 
         form = SearchForm()
-        ips = IpAddress.objects.filter(blocked__is_blocked=True).distinct()
+        ips = IpAddress.objects.filter(is_blocked=True)
 
         context = {
             "form": form,

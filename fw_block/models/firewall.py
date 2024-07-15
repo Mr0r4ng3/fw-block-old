@@ -1,7 +1,5 @@
-from datetime import datetime
 from django.db import models
 from fw_block import settings
-from fw_block.models.blocked import Blocked
 from fw_block.models.ip import IpAddress
 from fw_block.services import AsaAPI
 
@@ -33,36 +31,22 @@ class Firewall(models.Model):
 
     def block(self, ip: IpAddress) -> bool:
 
-        try:
+        asa_service = AsaAPI(
+            api_url=self.get_cli_url(),
+            username=settings.FW_USER,
+            password=settings.FW_PASSWORD,
+        )
 
-            asa_service = AsaAPI(
-                api_url=self.get_cli_url(),
-                username=settings.FW_USER,
-                password=settings.FW_PASSWORD,
-            )
+        ok_result_from_firewall = (
+            asa_service.block_ip(ip.ip) if settings.APPLY_TO_FW else True
+        )
 
-            ok_result_from_firewall = (
-                asa_service.block_ip(ip.ip) if settings.APPLY_TO_FW else True
-            )
-
-            if ok_result_from_firewall:
-
-                blocked = Blocked.objects.get(ip=ip, firewall=self)
-
-                blocked.is_blocked = True
-                blocked.blocked_at = datetime.now()
-                blocked.unblocked_at = None
-                blocked.save()
-
-                return True
-
-            return False
-
-        except Blocked.DoesNotExist:
-
+        if ok_result_from_firewall:
             self.blocked_ips.add(ip)
 
-        return True
+            return True
+
+        return False
 
     def unblock(self, ip: IpAddress) -> bool:
 
@@ -77,11 +61,8 @@ class Firewall(models.Model):
         )
 
         if ok_result_from_firewall:
-            blocked = Blocked.objects.get(ip=ip, firewall=self)
 
-            blocked.is_blocked = False
-            blocked.unblocked_at = datetime.now()
-            blocked.save()
+            self.blocked_ips.remove(ip)
 
             return True
 

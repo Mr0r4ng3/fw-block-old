@@ -31,9 +31,7 @@ class Search(PermissionRequiredMixin, View):
 
         data = searchForm.query_ip()
 
-        firewalls = Firewall.objects.exclude(
-            blocked__is_blocked=True, blocked__ip=searchForm.model.id
-        )
+        firewalls = Firewall.objects.exclude(blocked__ip=searchForm.model.id)
 
         if firewalls.count() == 0:
 

@@ -38,6 +38,9 @@ class Block(PermissionRequiredMixin, View):
                 extra_tags="success",
             )
 
+            ip_model.is_blocked = True
+            ip_model.save()
+
         if failed_firewalls > 0:
 
             messages.error(

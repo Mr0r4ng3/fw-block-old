@@ -37,6 +37,13 @@ class Unblock(PermissionRequiredMixin, View):
                 extra_tags="success",
             )
 
+            ip_model.is_blocked = (
+                False
+                if Firewall.objects.filter(blocked__ip=ip_model.id).count() == 0
+                else True
+            )
+            ip_model.save()
+
         if failed_firewalls > 0:
 
             messages.error(
