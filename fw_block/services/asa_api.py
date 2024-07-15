@@ -1,5 +1,4 @@
 import json
-from urllib import request
 from requests import Session, adapters, Response
 from requests.auth import HTTPBasicAuth
 from urllib3 import poolmanager, disable_warnings  # type: ignore

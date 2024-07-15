@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
 from fw_block.models import IpAddress, Firewall
+from fw_block.models.blocked_logs import BlockedLogs
 
 
 class Unblock(PermissionRequiredMixin, View):
@@ -28,6 +29,13 @@ class Unblock(PermissionRequiredMixin, View):
                 continue
 
             succesful_firewalls += 1
+
+            BlockedLogs.objects.create(
+                ip=ip_model,
+                firewall=firewall,
+                user=request.user,
+                action=BlockedLogs.Actions.UNBLOCKED,
+            )
 
         if succesful_firewalls > 0:
 

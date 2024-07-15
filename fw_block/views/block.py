@@ -4,7 +4,9 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
-from fw_block.models import Firewall, IpAddress
+from fw_block.models import Firewall, IpAddress, BlockedLogs
+from fw_block.models import BlockedLogs
+from fw_block.models.blocked_logs import Actions
 
 
 class Block(PermissionRequiredMixin, View):
@@ -29,6 +31,13 @@ class Block(PermissionRequiredMixin, View):
                 continue
 
             succesful_firewalls += 1
+
+            BlockedLogs.objects.create(
+                ip=ip_model,
+                firewall=firewall,
+                user=request.user,
+                action=Actions.BLOCKED,
+            )
 
         if succesful_firewalls > 0:
 
