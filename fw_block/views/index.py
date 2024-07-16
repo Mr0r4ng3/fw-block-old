@@ -1,14 +1,14 @@
 from django.http import HttpResponse, HttpRequest
 from django.views import View
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from fw_block.forms import SearchForm
 from fw_block.models.ip import IpAddress
 
 
-class Index(PermissionRequiredMixin, View):
+class Index(LoginRequiredMixin, View):
 
-    permission_required = "fw_block.view_ipaddress"
+    http_method_names = ["get"]
 
     def get(self, request: HttpRequest) -> HttpResponse:
 

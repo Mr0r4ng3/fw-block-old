@@ -9,7 +9,8 @@ from fw_block.views.utils import extract_errors
 
 class Search(PermissionRequiredMixin, View):
 
-    permission_required = "fw_block.search_ipadress"
+    permission_required = "fw_block.search_ipaddress"
+    http_method_names = ["get"]
 
     def get(self, request):
 

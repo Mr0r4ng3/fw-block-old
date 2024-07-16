@@ -5,7 +5,7 @@ class IpAddress(models.Model):
 
     class Meta:
         app_label = "fw_block"
-        permissions = (("search_ipadress", "Can search IPs"),)
+        permissions = (("search_ipaddress", "Can search IPs"),)
         verbose_name = "Dirección IP"
         verbose_name_plural = "Direcciones IP"
 
