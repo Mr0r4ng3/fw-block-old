@@ -18,23 +18,34 @@
         <ul
           tabindex="0"
           class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-          <li><a>Item 1</a></li>
-          <li><a>Item 3</a></li>
+          {% with request.resolver_match.url_name as url_name %}
+          <li>
+            <a class="{% if url_name == 'index' %}bg-gray-200{% endif %}" href="{% url "index" %}">Inicio</a>
+          </li>
+  
+          {% if perms.fw_block.view_blockedlogs %}
+            <li>
+              <a class="{% if url_name == 'logs' %}bg-gray-200{% endif %}" href="{% url "logs" %}">Registros</a>
+            </li>
+          {% endif %}
+          {% endwith %}
         </ul>
       </div>
       <a href="{% url "index" %}" class="btn btn-ghost text-xl">FW-BLOCK</a>
     </div>
     <div class="navbar-center hidden lg:flex">
-      <ul class="menu menu-horizontal px-1">
+      <ul class="menu menu-horizontal px-1 gap-2">
+        {% with request.resolver_match.url_name as url_name %}
         <li>
-          <a href="{% url "index" %}">Inicio</a>
+          <a class="{% if url_name == 'index' %}bg-gray-200{% endif %}" href="{% url "index" %}">Inicio</a>
         </li>
 
         {% if perms.fw_block.view_blockedlogs %}
           <li>
-            <a href="{% url "logs" %}">Logs</a>
+            <a class="{% if url_name == 'logs' %}bg-gray-200{% endif %}" href="{% url "logs" %}">Registros</a>
           </li>
         {% endif %}
+        {% endwith %}
         
       </ul>
     </div>
