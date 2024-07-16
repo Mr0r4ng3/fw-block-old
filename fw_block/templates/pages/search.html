@@ -7,8 +7,10 @@
 
 {% block form %}
 {% if perms.fw_block.can_block %}
-<form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
+<form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center p-2 gap-4 m-6">
     
+    <h3 class="font-semibold">¿Desea bloquear esta IP?</h3>
+
     {% csrf_token %}
     
     <input type="hidden" name="ip" value="{{ ip.ip }}">

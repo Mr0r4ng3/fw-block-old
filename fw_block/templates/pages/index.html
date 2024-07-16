@@ -43,7 +43,7 @@
     <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 justify-items-center content-center w-full">
         {% for ip in ips %}
             <li class="card bg-white w-72 shadow-xl rounded-md">
-                <div class="map-div h-40 rounded-md" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
+                <div class="map-div h-40 rounded-t-md" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
                 </div>
                 <div class="card-body">
                   <h2 class="card-title">{{ ip.ip }}</h2>

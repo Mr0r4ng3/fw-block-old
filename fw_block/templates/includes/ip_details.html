@@ -1,17 +1,17 @@
-<h2 class="font-bold text-3xl mx-auto my-4 w-full align-middle text-center">{{ ip.ip }}</h2>
-<div class="grid grid-cols-2 justify-items-center px-2 py-4 gap-8">
+<h2 class="font-bold text-xl sm:text-3xl mx-auto my-2 w-full align-middle text-center">{{ ip.ip }}</h2>
+<div class="grid grid-cols-2 justify-items-center px-2 py-2 gap-4">
     <div>
-        <p class="font-bold align-middle text-end">País:</p>
-        <p class="font-bold align-middle text-end">Estado:</p>
-        <p class="font-bold align-middle text-end">Ciudad:</p>
-        <p class="font-bold align-middle text-end">ASN:</p>
-        <p class="font-bold align-middle text-end">Organización:</p>
+        <p class="text-sm sm:text-base font-bold align-middle text-end">País:</p>
+        <p class="text-sm sm:text-base font-bold align-middle text-end">Estado:</p>
+        <p class="text-sm sm:text-base font-bold align-middle text-end">Ciudad:</p>
+        <p class="text-sm sm:text-base font-bold align-middle text-end">ASN:</p>
+        <p class="text-sm sm:text-base font-bold align-middle text-end">Organización:</p>
     </div>
     <div>
-        <p class="font-semibold text-gray-700">{% if ip.country %}{{ ip.country }}{% else %}-{% endif %}</p>
-        <p class="font-semibold text-gray-700">{% if ip.region %}{{ ip.region }}{% else %}-{% endif %}</p>
-        <p class="font-semibold text-gray-700">{% if ip.city %}{{ ip.city }}{% else %}-{% endif %}</p>
-        <p class="font-semibold text-gray-700">{% if ip.asn %}{{ ip.asn }}{% else %}-{% endif %}</p>
-        <p class="font-semibold text-gray-700">{% if ip.organization %}{{ ip.organization }}{% else %}-{% endif %}</p>
+        <p class="text-sm sm:text-base font-semibold text-gray-700">{% if ip.country %}{{ ip.country }}{% else %}-{% endif %}</p>
+        <p class="text-sm sm:text-base font-semibold text-gray-700">{% if ip.region %}{{ ip.region }}{% else %}-{% endif %}</p>
+        <p class="text-sm sm:text-base font-semibold text-gray-700">{% if ip.city %}{{ ip.city }}{% else %}-{% endif %}</p>
+        <p class="text-sm sm:text-base font-semibold text-gray-700">{% if ip.asn %}{{ ip.asn }}{% else %}-{% endif %}</p>
+        <p class="text-sm sm:text-base font-semibold text-gray-700">{% if ip.organization %}{{ ip.organization }}{% else %}-{% endif %}</p>
     </div>
 </div>

@@ -10,44 +10,28 @@
 {% endblock css %}
 
 {% block main %}
-
-    <section class="bg-white sm:grid grid-cols-2 sm:h-[480px] shadow-md rounded-md">
-        {% if ip.latitude and ip.longitude %}
-        <article class="">
-            <div class="">
-                <div class="map-div rounded-md h-32 sm:h-[480px]" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
-            </div>
-        </article>
-        {% endif %}
-        <article class=" flex flex-col">
-            <div class="w-full flex flex-col justify-center items-center">
-                {% include "includes/ip_details.html" %}
-            </div>
-
-            {% block form %}
-            {% if perms.fw_block.can_unblock %}
-            <form action="{% url "unblock" ip.ip %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
-                
-                {% csrf_token %}
-                
-                <input type="hidden" name="ip" value="{{ ip.ip }}">
-                
-                <select class="hidden" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" required multiple>
-                    {% for firewall in firewalls %}
-                    
-                    <option value="{{ firewall.id }}">{{ firewall.name }}</option>
-                    
-                    {% endfor %}
-                    
-                </select>
-                
-                <input class="btn btn-success text-white" type="submit" value="Desbloquear">
-            </form>
+    <div class="flex flex-col gap-6 justify-center items-center">
+        <section class="bg-white sm:grid grid-cols-2 items-center shadow-md rounded-md w-full md:w-3/4">
+            {% if ip.latitude and ip.longitude %}
+            <article class="">
+                <div class="">
+                    <div class="map-div rounded-t-md sm:rounded-none sm:rounded-tl-md sm:rounded-bl-md h-40 sm:h-[320px] shadow-md" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
+                    </div>
+                </div>
+            </article>
             {% endif %}
-            {% endblock form %}
+            <article class="flex flex-col">
+                <div class="w-full flex flex-col justify-center items-center">
+                    {% include "includes/ip_details.html" %}
+                </div>                    
+            </article>
+        </section>
 
-        </article>
-    </section>
+        <section class="bg-white rounded-md shadow-md w-full sm:w-fit">
+            {% block form %}
+            {% endblock form %}
+        </section>
+    </div>
 {% endblock main %}
 
 {% block js %}
