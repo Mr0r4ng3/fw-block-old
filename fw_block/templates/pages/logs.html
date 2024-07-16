@@ -49,6 +49,8 @@
           <th>Firewall</th>
           <th>Acción</th>
           <th>IP</th>
+          <th>Motivo</th>
+          <th>Descripción</th>
         </tr>
       </thead>
       <tbody>
@@ -60,6 +62,8 @@
             <th>{{ log.firewall.name }}</th>
             <th>{{ log.get_action_display }}</th>
             <th>{{ log.ip }}</th>
+            <th>{{ log.reason }}</th>
+            <th>{{ log.description }}</th>
         </tr>
         {% endfor %}
       </tbody>

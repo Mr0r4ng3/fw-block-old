@@ -19,6 +19,8 @@ class BlockedLogs(models.Model):
     firewall = models.ForeignKey("Firewall", on_delete=models.CASCADE)
     action = models.CharField(max_length=7, choices=Actions, default=Actions.block)
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    reason = models.TextField(blank=True, default="")
+    description = models.TextField(blank=True, default="")
 
     def __str__(self):
         return f"{self.datetime} - {self.user.username} - {self.action} - {self.ip.ip} - {self.firewall.name}"
