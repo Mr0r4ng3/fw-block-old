@@ -17,7 +17,7 @@
 <body class="h-screen">
     <header class="w-full">
         {% if user.is_authenticated %}
-        {% include "includes/navbar.html" %}
+          {% include "includes/navbar.html" %}
         {% endif %}
         {% block header %}
         {% endblock header %}
