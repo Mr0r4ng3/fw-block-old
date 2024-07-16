@@ -10,6 +10,7 @@ urlpatterns = [
     path("block/", views.Block.as_view(), name="block"),
     path("details/<str:ip>", views.Details.as_view(), name="details"),
     path("unblock/<str:ip>", views.Unblock.as_view(), name="unblock"),
+    path("logs/", views.LogView.as_view(), name="logs"),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path(

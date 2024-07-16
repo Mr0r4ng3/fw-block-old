@@ -3,15 +3,21 @@ from django.db import models
 
 class Actions(models.TextChoices):
 
-    block = "block"
-    unblock = "unblock"
+    block = "block", "Bloqueo"
+    unblock = "unblock", "Desbloqueo"
 
 
 class BlockedLogs(models.Model):
+
+    class Meta:
+        app_label = "fw_block"
+
+        ordering = ["-datetime"]
+
     ip = models.ForeignKey("IpAddress", on_delete=models.CASCADE)
+    datetime = models.DateTimeField(auto_now_add=True)
     firewall = models.ForeignKey("Firewall", on_delete=models.CASCADE)
     action = models.CharField(max_length=7, choices=Actions, default=Actions.block)
-    datetime = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
 
     def __str__(self):
