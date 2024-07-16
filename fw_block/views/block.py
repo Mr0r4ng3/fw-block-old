@@ -36,7 +36,7 @@ class Block(PermissionRequiredMixin, View):
                 ip=ip_model,
                 firewall=firewall,
                 user=request.user,
-                action=Actions.BLOCKED,
+                action=Actions.block,
             )
 
         if succesful_firewalls > 0:
