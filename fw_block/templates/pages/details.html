@@ -23,23 +23,26 @@
             <div class="w-full flex flex-col justify-center items-center">
                 {% include "includes/ip_details.html" %}
             </div>
-            <form action="{% url "unblock" ip.ip %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
 
+            {% if perms.fw_block.can_unblock %}
+            <form action="{% url "unblock" ip.ip %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
+                
                 {% csrf_token %}
-    
+                
                 <input type="hidden" name="ip" value="{{ ip.ip }}">
-    
+                
                 <select class="hidden" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" required multiple>
                     {% for firewall in firewalls %}
-    
-                        <option value="{{ firewall.id }}">{{ firewall.name }}</option>
-    
+                    
+                    <option value="{{ firewall.id }}">{{ firewall.name }}</option>
+                    
                     {% endfor %}
-
+                    
                 </select>
-
+                
                 <input class="btn btn-success text-white" type="submit" value="Desbloquear">
             </form>
+            {% endif %}
 
         </article>
     </section>

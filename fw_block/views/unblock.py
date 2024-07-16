@@ -12,6 +12,7 @@ from fw_block.models.blocked_logs import Actions
 class Unblock(PermissionRequiredMixin, View):
 
     permission_required = "fw_block.can_unblock"
+    http_method_names = ["post"]
 
     def post(self, request: HttpRequest, ip: str) -> HttpResponse:
 

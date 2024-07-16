@@ -5,13 +5,13 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
 from fw_block.models import Firewall, IpAddress, BlockedLogs
-from fw_block.models import BlockedLogs
 from fw_block.models.blocked_logs import Actions
 
 
 class Block(PermissionRequiredMixin, View):
 
     permission_required = "fw_block.can_block"
+    http_method_names = ["post"]
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
@@ -57,9 +57,5 @@ class Block(PermissionRequiredMixin, View):
                 f"No se pudo bloquear la IP en {failed_firewalls} firewall{'s' if failed_firewalls > 1 else ''}",
                 extra_tags="danger",
             )
-
-        return redirect("index")
-
-    def get(self, request: HttpRequest) -> HttpResponse:
 
         return redirect("index")

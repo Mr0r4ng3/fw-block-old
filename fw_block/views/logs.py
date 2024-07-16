@@ -15,6 +15,7 @@ class LogView(PermissionRequiredMixin, ListView):
     paginate_by = 100
     model = BlockedLogs
     template_name = "pages/logs.html"
+    http_method_names = ["get"]
 
     def get_queryset(self) -> QuerySet[Any]:
 

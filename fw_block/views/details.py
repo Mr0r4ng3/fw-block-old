@@ -11,6 +11,7 @@ from fw_block.models import IpAddress
 class Details(PermissionRequiredMixin, View):
 
     permission_required = "fw_block.view_ipaddress"
+    http_method_names = ["get"]
 
     def get(self, request: HttpRequest, ip: str) -> HttpResponse:
 

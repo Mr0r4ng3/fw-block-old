@@ -9,6 +9,7 @@
 {% endblock css %}
 
 {% block header %}
+{% if perms.fw_block.search_ipaddress %}
 <div class="bg-gray-100 flex flex-col items-center justify-center">
     <form id="search-form" action="{% url "search" %}" method="GET" class="hidden flex flex-col gap-2 sm:flex-row m-6">
         <label class="input input-bordered flex items-center gap-2">
@@ -33,6 +34,7 @@
         </button>
     </div>
 </div>
+{% endif %}
 {% endblock header %}
 
 {% block main %}
