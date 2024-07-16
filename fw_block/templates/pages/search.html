@@ -1,58 +1,33 @@
-{% extends "base.html" %}
+{% extends "layout/ip_details.html" %}
 
 {% load static %}
 
 {% block sub_title %}- Busqueda{% endblock sub_title %}
 
-{% block css %}
- <link rel="stylesheet" href="{% static "leaflet/leaflet.css" %}">
- <link rel="stylesheet" href="{% static "select/select.css" %}">
-{% endblock css %}
 
-{% block main %}
+{% block form %}
+{% if perms.fw_block.can_block %}
+<form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
+    
+    {% csrf_token %}
+    
+    <input type="hidden" name="ip" value="{{ ip.ip }}">
+    
+    <select class="w-full" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" multiple required class="hidden">
+        {% for firewall in firewalls %}
+        
+        <option value="{{ firewall.id }}">{{ firewall.name }}</option>
+        
+        {% endfor %}
+    </select>
+    
+    <input class="btn btn-error text-white" type="submit" value="Bloquear">    
+    
+</form>
+{% endif %}
+{% endblock form %}
 
-    <section class="bg-white sm:grid grid-cols-2 sm:h-[480px] shadow-md rounded-md">
-        {% if ip.latitude and ip.longitude %}
-        <article class="">
-            <div class="">
-                <div class="map-div h-32 rounded-md sm:h-[480px]" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
-            </div>
-        </article>
-        {% endif %}
-        <article class="flex flex-col">
-            <div class="w-full flex flex-col justify-center items-center">
-                {% include "includes/ip_details.html" %}
-            </div>
 
-            {% if perms.fw_block.can_block %}
-            <form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center p-8 gap-4">
-                
-                {% csrf_token %}
-                
-                <input type="hidden" name="ip" value="{{ ip.ip }}">
-                
-                <select class="w-full" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" multiple required class="hidden">
-                    {% for firewall in firewalls %}
-                    
-                    <option value="{{ firewall.id }}">{{ firewall.name }}</option>
-                    
-                    {% endfor %}
-                </select>
-                
-                <input class="btn btn-error text-white" type="submit" value="Bloquear">    
-                
-            </form>
-            {% endif %}
-        </article>
-    </section>
-
-{% endblock main %}
-
-{% block js %}
-<script src="{% static "leaflet/leaflet.js" %}"></script>
-<script src="{% static "select/select.js" %}"></script>
-<script src="{% static "initializeMaps.js" %}"></script>
-<script src="{% static "initializeSelects.js" %}"></script>
+{% block page_js %}
 <script src="{% static "search.js" %}"></script>
-
-{% endblock js %}
+{% endblock page_js %}
