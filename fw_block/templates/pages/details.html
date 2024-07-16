@@ -1,0 +1,37 @@
+{% extends "layout/ip_details.html" %}
+
+{% load static %}
+
+{% block sub_title %}- {{ ip.ip }}{% endblock sub_title %}
+
+
+{% block form %}
+{% if perms.fw_block.can_unblock %}
+<form action="{% url "unblock" %}" method="POST" class="flex flex-col justify-center items-center p-2 gap-4 m-6">
+    
+    <h3 class="font-semibold">¿Desea desbloquear esta IP?</h3>
+
+    {% csrf_token %}    
+    
+    <input type="hidden" name="ip" value="{{ ip.ip }}">
+    
+    <select class="hidden" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" required multiple>
+        {% for firewall in firewalls %}
+        
+        <option value="{{ firewall.id }}">{{ firewall.name }}</option>
+        
+        {% endfor %}
+        
+    </select>
+
+    <textarea required name="reason" class="textarea textarea-bordered" placeholder="Motivo..."></textarea>
+
+    <input class="btn btn-success text-white" type="submit" value="Desbloquear">
+</form>
+{% endif %}
+{% endblock form %}
+
+
+{% block page_js %}
+<script src="{% static "details.js" %}"></script>
+{% endblock page_js %}

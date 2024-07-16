@@ -1,0 +1,37 @@
+{% extends "layout/ip_details.html" %}
+
+{% load static %}
+
+{% block sub_title %}- Busqueda{% endblock sub_title %}
+
+
+{% block form %}
+{% if perms.fw_block.can_block %}
+<form action="{% url "block" %}" method="POST" class="flex flex-col justify-center items-center p-2 gap-4 m-6">
+    
+    <h3 class="font-semibold">¿Desea bloquear esta IP?</h3>
+
+    {% csrf_token %}
+    
+    <input type="hidden" name="ip" value="{{ ip.ip }}">
+    
+    <select class="w-full" id="select-firewalls" name="firewalls" id="firewall-select" placeholder="Seleccione los firewalls" autocomplete="off" multiple required class="hidden">
+        {% for firewall in firewalls %}
+        
+        <option value="{{ firewall.id }}">{{ firewall.name }}</option>
+        
+        {% endfor %}
+    </select>
+
+    <textarea required name="reason" class="textarea textarea-bordered" placeholder="Motivo..."></textarea>
+    
+    <input class="btn btn-error text-white" type="submit" value="Bloquear">    
+    
+</form>
+{% endif %}
+{% endblock form %}
+
+
+{% block page_js %}
+<script src="{% static "search.js" %}"></script>
+{% endblock page_js %}

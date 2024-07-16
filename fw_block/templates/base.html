@@ -1,17 +1,51 @@
+{% load static tailwind_tags %}
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" class="bg-gray-400">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock title %}</title>
+    <title>{% block title %}FW-BLOCK {% block sub_title %}{% endblock sub_title %}{% endblock title %}</title>
 
+
+    {% tailwind_css %}
+
+    <link rel="stylesheet" href="{% static "toast/toast.css" %}">
     {% block css %}{% endblock css %}
 </head>
-<body>
-    <header>{% block header %}{% endblock header %}</header>
-    <main>
+<body class="h-screen">
+    <header class="w-full">
+        {% if user.is_authenticated %}
+          {% include "includes/navbar.html" %}
+        {% endif %}
+        {% block header %}
+        {% endblock header %}
+    </header>
+    <section>
+    </section>
+    <main class="p-6 w-screen">
         {% block main %}{% endblock main %}
     </main>
+
+    <script src="{% static "toast/toast.js" %}"></script>
+
     {% block js %}{% endblock js %}
+
+    {% if messages %}
+    {% autoescape off %}
+      {% for msg in messages %}
+        <script type="text/javascript">
+            new Toast(
+                    {
+                        message: "{{ msg }}",
+                        type: "{{ msg.extra_tags }}",
+                    }
+                );
+        </script>
+      {% endfor %}
+    {% endautoescape %}
+  {% endif %}
+
 </body>
 </html>

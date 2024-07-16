@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block sub_title %}- Detalles{% endblock sub_title %}
+
+{% block css %}
+ <link rel="stylesheet" href="{% static "leaflet/leaflet.css" %}">
+ <link rel="stylesheet" href="{% static "select/select.css" %}">
+{% endblock css %}
+
+{% block main %}
+    <div class="flex flex-col gap-6 justify-center items-center">
+        <section class="bg-white sm:grid grid-cols-2 items-center shadow-md rounded-md w-full md:w-3/4">
+            {% if ip.latitude and ip.longitude %}
+            <article class="">
+                <div class="">
+                    <div class="map-div rounded-t-md sm:rounded-none sm:rounded-tl-md sm:rounded-bl-md h-40 sm:h-[320px] shadow-md" data-latitude="{{ ip.latitude }}" data-longitude="{{ ip.longitude }}">
+                    </div>
+                </div>
+            </article>
+            {% endif %}
+            <article class="flex flex-col">
+                <div class="w-full flex flex-col justify-center items-center">
+                    {% include "includes/ip_details.html" %}
+                </div>                    
+            </article>
+        </section>
+
+        <section class="bg-white rounded-md shadow-md w-full sm:w-fit">
+            {% block form %}
+            {% endblock form %}
+        </section>
+    </div>
+{% endblock main %}
+
+{% block js %}
+<script src="{% static "leaflet/leaflet.js" %}"></script>
+<script src="{% static "select/select.js" %}"></script>
+<script src="{% static "initializeMaps.js" %}"></script>
+<script src="{% static "initializeSelects.js" %}"></script>
+
+{% block page_js %}
+<script src="{% static "details.js" %}"></script>
+{% endblock page_js %}
+
+{% endblock js %}

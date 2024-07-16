@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block sub_title %}- Logs{% endblock sub_title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "datepicker/flatpickr.css" %}">
+{% endblock css %}
+
+{% block main %}
+
+<div class="overflow-x-auto bg-white p-6 shadow-md rounded-md">
+
+    <section class="mx-auto w-full p-8"> 
+      <form id="filters-form" action="" method="GET" class="flex gap-4 w-full">
+
+        <label class="input input-bordered flex items-center gap-2 grow">
+          <input type="text" name="q" placeholder="Buscar..." value="{{ request.GET.q }}" class="grow">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+          </svg>
+        </label>
+        
+        <select name="action" class="select select-bordered max-w-[200px] grow">
+          <option value="any" {% if request.GET.action == "any" %}selected{% endif %}>Cualquiera</option>
+          <option value="block" {% if request.GET.action == "block" %}selected{% endif %}>Bloqueo</option>
+          <option value="unblock" {% if request.GET.action == "unblock" %}selected{% endif %}>Desbloqueo</option>
+        </select>
+
+        <label class="input input-bordered flex items-center gap-2 grow max-w-[400px]">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+          </svg>          
+          <input type="text" id="date-picker" class="grow" name="date-range" placeholder="Rango de fechas" value="{{ request.GET.date_range }}">
+        </label>
+
+        <input class="btn btn-neutral" type="submit" value="Buscar">
+      </form>
+    </section>
+
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>Fecha y Hora</th>
+          <th>Usuario</th>
+          <th>Firewall</th>
+          <th>Acción</th>
+          <th>IP</th>
+          <th>Motivo</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in page_obj %}
+        <tr>
+            <th>{{ forloop.counter }}</th>
+            <th>{{ log.datetime }}</th>
+            <th>{{ log.user }}</th>
+            <th>{{ log.firewall.name }}</th>
+            <th>{{ log.get_action_display }}</th>
+            <th>{{ log.ip }}</th>
+            <th>{{ log.reason }}</th>
+            <th>{{ log.description }}</th>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <nav class="flex items-center justify-center w-full my-2">
+      <div class="join">
+
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="join-item btn">«</a>
+        {% endif %}
+  
+        <a class="join-item btn">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.</a>
+  
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="join-item btn">»</a>
+        {% endif %}
+      </div>
+    </nav>
+</div>
+
+{% endblock main %}
+
+{% block js %}
+<script src="{% static "datepicker/flatpickr.js" %}"></script>
+<script src="{% static "datepicker/es.js" %}"></script>
+<script src="{% static "logs.js" %}"></script>
+{% endblock js %}

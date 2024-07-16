@@ -2,7 +2,7 @@ import environ
 from pathlib import Path
 
 
-env = environ.Env(DEBUG=(bool, False))
+env = environ.Env(DEBUG=(bool, False), APPLY_TO_FW=(bool, False))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -14,6 +14,10 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
 
+IP_API_URL = "https://ipapi.co"
+FW_USER = env("FW_USER")
+FW_PASSWORD = env("FW_PASSWORD")
+APPLY_TO_FW = env("APPLY_TO_FW")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -23,6 +27,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "fw_block",
+    "theme",
+    # Third party
+    "tailwind",
+    "django_browser_reload",
+]
+
+TAILWIND_APP_NAME = "theme"
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 MIDDLEWARE = [
@@ -33,6 +47,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    # Third party
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "fw_block.urls"
@@ -92,3 +109,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/login/"
