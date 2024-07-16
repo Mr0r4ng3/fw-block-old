@@ -1,10 +1,10 @@
-from ipaddress import AddressValueError, IPv4Address
+from ipaddress import IPv4Address
 from django import forms
 from fw_block.services.ip_api_query import query_ip_in_api
 from fw_block.models import IpAddress, ProtectedNetworks
 
 
-def check_ip_in_protected_network(ip: str) -> None:
+def check_ip_in_protected_network(ip: str) -> str:
 
     protected_networks = ProtectedNetworks.objects.all()
 
@@ -16,30 +16,24 @@ def check_ip_in_protected_network(ip: str) -> None:
                 "La dirección IP se encuentra en una red protegida por los administradores"
             )
 
+    return ip
+
 
 class SearchForm(forms.Form):
-    ip = forms.CharField(
+    ip = forms.GenericIPAddressField(
         max_length=15,
-        label="",
-        widget=forms.TextInput(attrs={"placeholder": "8.8.8.8"}),
         required=True,
+        error_messages={
+            "required": "Es necesario rellenar el campo de IP.",
+            "invalid": "Dirección IP inválida.",
+        },
     )
 
     model = None
 
     def clean_ip(self):
 
-        ip = self.cleaned_data.get("ip")
-
-        try:
-
-            check_ip_in_protected_network(ip)
-
-        except AddressValueError:
-
-            raise forms.ValidationError("Dirección IP inválida")
-
-        return ip
+        return check_ip_in_protected_network(self.cleaned_data.get("ip"))
 
     def query_ip(self) -> dict:
         ip = self.cleaned_data.get("ip")

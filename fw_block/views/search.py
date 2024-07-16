@@ -14,10 +14,6 @@ class Search(PermissionRequiredMixin, View):
 
     def get(self, request):
 
-        if not request.GET.get("ip"):
-
-            return redirect("index")
-
         searchForm = SearchForm(request.GET)
 
         if not searchForm.is_valid():
