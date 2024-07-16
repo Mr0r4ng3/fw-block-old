@@ -6,6 +6,8 @@ from django.views import View
 
 from fw_block.models import Firewall, IpAddress, BlockedLogs
 from fw_block.models.blocked_logs import Actions
+from fw_block.forms import IpActionForm
+from fw_block.views.utils import extract_errors
 
 
 class Block(PermissionRequiredMixin, View):
@@ -15,8 +17,20 @@ class Block(PermissionRequiredMixin, View):
 
     def post(self, request: HttpRequest) -> HttpResponse:
 
-        ip = request.POST.get("ip")
-        firewalls_id = request.POST.getlist("firewalls")
+        form = IpActionForm(request.POST)
+
+        if not form.is_valid():
+
+            errors = extract_errors(form)
+
+            for error in errors:
+
+                messages.error(request, error["reason"], extra_tags="danger")
+
+            return redirect("index")
+
+        ip = form.cleaned_data["ip"]
+        firewalls_id = form.cleaned_data["firewalls"]
 
         ip_model = get_object_or_404(IpAddress, ip=ip)
         failed_firewalls = 0
@@ -37,6 +51,8 @@ class Block(PermissionRequiredMixin, View):
                 firewall=firewall,
                 user=request.user,
                 action=Actions.block,
+                reason=form.cleaned_data["reason"],
+                description=f'{ip_model.organization if ip_model.organization else ""}{", " + ip_model.city if ip_model.city else ""}',
             )
 
         if succesful_firewalls > 0:

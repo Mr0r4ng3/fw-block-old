@@ -4,9 +4,11 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
+from fw_block.forms import IpActionForm
 from fw_block.models import IpAddress, Firewall
 from fw_block.models import BlockedLogs
 from fw_block.models.blocked_logs import Actions
+from fw_block.views.utils import extract_errors
 
 
 class Unblock(PermissionRequiredMixin, View):
@@ -14,11 +16,23 @@ class Unblock(PermissionRequiredMixin, View):
     permission_required = "fw_block.can_unblock"
     http_method_names = ["post"]
 
-    def post(self, request: HttpRequest, ip: str) -> HttpResponse:
+    def post(self, request: HttpRequest) -> HttpResponse:
 
-        firewalls_id = request.POST.getlist("firewalls")
+        form = IpActionForm(request.POST)
 
-        ip_model = get_object_or_404(IpAddress, ip=ip)
+        if not form.is_valid():
+
+            errors = extract_errors(form)
+
+            for error in errors:
+
+                messages.error(request, error["reason"], extra_tags="danger")
+
+            return redirect("index")
+
+        firewalls_id = form.cleaned_data["firewalls"]
+
+        ip_model = get_object_or_404(IpAddress, ip=form.cleaned_data["ip"])
         failed_firewalls = 0
         succesful_firewalls = 0
 
@@ -37,6 +51,8 @@ class Unblock(PermissionRequiredMixin, View):
                 firewall=firewall,
                 user=request.user,
                 action=Actions.unblock,
+                reason=form.cleaned_data["reason"],
+                description=f'{ip_model.organization if ip_model.organization else ""}{", " + ip_model.city if ip_model.city else ""}',
             )
 
         if succesful_firewalls > 0:

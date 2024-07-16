@@ -7,7 +7,7 @@
 
 {% block form %}
 {% if perms.fw_block.can_unblock %}
-<form action="{% url "unblock" ip.ip %}" method="POST" class="flex flex-col justify-center items-center p-2 gap-4 m-6">
+<form action="{% url "unblock" %}" method="POST" class="flex flex-col justify-center items-center p-2 gap-4 m-6">
     
     <h3 class="font-semibold">¿Desea desbloquear esta IP?</h3>
 
@@ -23,7 +23,9 @@
         {% endfor %}
         
     </select>
-    
+
+    <textarea required name="reason" class="textarea textarea-bordered" placeholder="Motivo..."></textarea>
+
     <input class="btn btn-success text-white" type="submit" value="Desbloquear">
 </form>
 {% endif %}
