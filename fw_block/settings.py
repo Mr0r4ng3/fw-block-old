@@ -1,3 +1,4 @@
+from pickle import INST
 import environ
 from pathlib import Path
 
@@ -30,7 +31,6 @@ INSTALLED_APPS = [
     "theme",
     # Third party
     "tailwind",
-    "django_browser_reload",
 ]
 
 TAILWIND_APP_NAME = "theme"
@@ -48,9 +48,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
-    # Third party
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
+
+if DEBUG:
+
+    MIDDLEWARE += ["django_browser_reload.middleware.BrowserReloadMiddleware"]
+    INSTALLED_APPS += ["django_browser_reload"]
 
 ROOT_URLCONF = "fw_block.urls"
 
