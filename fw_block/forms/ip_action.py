@@ -2,6 +2,11 @@ from django import forms
 from fw_block.models import Firewall
 
 
+def get_firewalls_choices():
+
+    return [(f.id, f.name) for f in Firewall.objects.all()]
+
+
 class IpActionForm(forms.Form):
 
     ip = forms.GenericIPAddressField(
@@ -14,7 +19,7 @@ class IpActionForm(forms.Form):
 
     firewalls = forms.MultipleChoiceField(
         required=True,
-        choices=[(f.id, f.name) for f in Firewall.objects.all()],
+        choices=get_firewalls_choices,
         error_messages={"required": "Es necesario seleccionar al menos 1 firewall."},
     )
     reason = forms.CharField(
