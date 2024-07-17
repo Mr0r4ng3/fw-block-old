@@ -52,7 +52,7 @@ class Unblock(PermissionRequiredMixin, View):
                 user=request.user,
                 action=Actions.unblock,
                 reason=form.cleaned_data["reason"],
-                description=f'{ip_model.organization if ip_model.organization else ""}{", " + ip_model.city if ip_model.city else ""}',
+                description=f'{ip_model.organization if ip_model.organization else ""}{", " + ip_model.country if ip_model.country else ""}',
             )
 
         if succesful_firewalls > 0:
