@@ -1,9 +1,8 @@
-from pickle import INST
 import environ
 from pathlib import Path
 
 
-env = environ.Env(DEBUG=(bool, False), APPLY_TO_FW=(bool, False))
+env = environ.Env(DEBUG=(bool, False), APPLY_TO_FW=(bool, True))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,7 +12,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 IP_API_URL = "https://ipapi.co"
 FW_USER = env("FW_USER")
@@ -53,7 +52,12 @@ MIDDLEWARE = [
 if DEBUG:
 
     MIDDLEWARE += ["django_browser_reload.middleware.BrowserReloadMiddleware"]
-    INSTALLED_APPS += ["django_browser_reload"]
+    INSTALLED_APPS += [
+        "django_browser_reload",
+        "theme",
+        "tailwind",
+    ]
+    TAILWIND_APP_NAME = "theme"
 
 ROOT_URLCONF = "fw_block.urls"
 
@@ -79,7 +83,7 @@ WSGI_APPLICATION = "fw_block.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3" if DEBUG else Path("/var/database/db.sqlite3"),
     }
 }
 
@@ -99,6 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS", default=["http://localhost:8000"])
 
 LANGUAGE_CODE = "es-ve"
 
@@ -110,6 +115,8 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
+
+STATIC_ROOT = BASE_DIR / "public/static"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
